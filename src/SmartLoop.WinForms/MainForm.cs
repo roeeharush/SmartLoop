@@ -8,6 +8,8 @@ public partial class MainForm : Form, IComponentLibraryView
     public event EventHandler? ViewLoaded;
     public event EventHandler? DeleteRequested;
     public event EventHandler? AddRequested;
+    public event EventHandler? EditRequested;
+    public event EventHandler? UpdateRequested;
 
     public int? SelectedComponentId
     {
@@ -54,6 +56,8 @@ public partial class MainForm : Form, IComponentLibraryView
         Load += (sender, e) => ViewLoaded?.Invoke(this, EventArgs.Empty);
         deleteButton.Click += (sender, e) => DeleteRequested?.Invoke(this, EventArgs.Empty);
         addButton.Click += (sender, e) => AddRequested?.Invoke(this, EventArgs.Empty);
+        editButton.Click += (sender, e) => EditRequested?.Invoke(this, EventArgs.Empty);
+        updateButton.Click += (sender, e) => UpdateRequested?.Invoke(this, EventArgs.Empty);
     }
 
     public void ShowComponents(IReadOnlyList<Component> components)
@@ -80,5 +84,15 @@ public partial class MainForm : Form, IComponentLibraryView
         minValueTextBox.Clear();
         maxValueTextBox.Clear();
         descriptionTextBox.Clear();
+    }
+
+    public void ShowInputs(Component component)
+    {
+        nameTextBox.Text = component.Name;
+        typeComboBox.SelectedItem = component.Type;
+        unitTextBox.Text = component.Unit;
+        minValueTextBox.Text = component.MinValue.ToString();
+        maxValueTextBox.Text = component.MaxValue.ToString();
+        descriptionTextBox.Text = component.Description ?? string.Empty;
     }
 }
