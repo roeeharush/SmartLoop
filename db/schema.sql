@@ -35,3 +35,19 @@ CREATE TABLE ControlSystems (
     CreatedAt   DATETIME2 NOT NULL DEFAULT GETDATE()
 );
 GO
+
+CREATE TABLE SystemComponents (
+    SystemId    INT          NOT NULL,
+    ComponentId INT          NOT NULL,
+    Role        NVARCHAR(20) NOT NULL
+                CHECK (Role IN ('Sensor', 'Controller', 'Actuator')),
+    Position    INT          NOT NULL,
+    CONSTRAINT PK_SystemComponents
+        PRIMARY KEY (SystemId, ComponentId, Role),
+    CONSTRAINT FK_SystemComponents_ControlSystems
+        FOREIGN KEY (SystemId) REFERENCES ControlSystems(Id)
+        ON DELETE CASCADE,
+    CONSTRAINT FK_SystemComponents_Components
+        FOREIGN KEY (ComponentId) REFERENCES Components(Id)
+);
+GO
