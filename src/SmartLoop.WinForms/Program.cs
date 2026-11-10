@@ -1,27 +1,32 @@
+using Microsoft.Extensions.DependencyInjection;
+using SmartLoop.Core.Interfaces;
 using SmartLoop.Core.Presenters;
+using SmartLoop.Core.Views;
 using SmartLoop.Infrastructure;
-
 
 namespace SmartLoop.WinForms;
 
 static class Program
 {
-    /// <summary>
-    ///  The main entry point for the application.
-    /// </summary>
     [STAThread]
     static void Main()
     {
-        // To customize application configuration such as set high DPI settings or default font,
-        // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
 
         var connectionString = @"Server=localhost\SQLEXPRESS;Database=SmartLoop;Trusted_Connection=True;TrustServerCertificate=True;";
 
-        var form = new MainForm();
-        var repository = new SqlComponentRepository(connectionString);
-        var presenter = new ComponentLibraryPresenter(form, repository);
+        var services = new ServiceCollection();
+
+        services.AddSingleton<IComponentRepository>(_ => new SqlComponentRepository(connectionString));
+        services.AddSingleton<MainForm>();
+        services.AddSingleton<IComponentLibraryView>(provider => provider.GetRequiredService<MainForm>());
+        services.AddSingleton<ComponentLibraryPresenter>();
+
+        using var serviceProvider = services.BuildServiceProvider();
+
+        serviceProvider.GetRequiredService<ComponentLibraryPresenter>();
+        var form = serviceProvider.GetRequiredService<MainForm>();
 
         Application.Run(form);
-    }    
+    }
 }
