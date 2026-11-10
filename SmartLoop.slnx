@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SmartLoop.Core/SmartLoop.Core.csproj" />
+    <Project Path="src/SmartLoop.Infrastructure/SmartLoop.Infrastructure.csproj" />
+    <Project Path="src/SmartLoop.WinForms/SmartLoop.WinForms.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SmartLoop.Tests/SmartLoop.Tests.csproj" />
+  </Folder>
+</Solution>
