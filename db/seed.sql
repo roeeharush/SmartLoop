@@ -16,3 +16,21 @@ GO
 
 SELECT * FROM Components;
 GO
+
+INSERT INTO ControlSystems (Name, Description)
+VALUES ('Greenhouse Temperature Control', 'Keeps greenhouse temperature stable');
+GO
+
+INSERT INTO SystemComponents (SystemId, ComponentId, Role, Position)
+VALUES
+    (1, 1, 'Sensor', 1),
+    (1, 5, 'Controller', 2),
+    (1, 9, 'Actuator', 3);
+GO
+
+INSERT INTO ComponentParameters (ComponentId, Name, Value)
+VALUES
+    (5, 'Kp', 1.2),
+    (5, 'Ki', 0.5),
+    (5, 'Kd', 0.1);
+GO
