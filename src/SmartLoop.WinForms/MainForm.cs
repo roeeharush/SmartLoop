@@ -6,11 +6,24 @@ namespace SmartLoop.WinForms;
 public partial class MainForm : Form, IComponentLibraryView
 {
     public event EventHandler? ViewLoaded;
+    public event EventHandler? DeleteRequested;
+    public int? SelectedComponentId
+    {
+        get
+        {
+            if (componentsGrid.CurrentRow?.DataBoundItem is Component component)
+            {
+                return component.Id;
+            }
 
+            return null;
+        }
+    }
     public MainForm()
     {
         InitializeComponent();
         Load += (sender, e) => ViewLoaded?.Invoke(this, EventArgs.Empty);
+        deleteButton.Click += (sender, e) => DeleteRequested?.Invoke(this, EventArgs.Empty);
     }
 
     public void ShowComponents(IReadOnlyList<Component> components)

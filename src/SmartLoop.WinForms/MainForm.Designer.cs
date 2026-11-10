@@ -29,7 +29,10 @@ partial class MainForm
     private void InitializeComponent()
     {
         componentsGrid = new DataGridView();
+        bottomPanel = new Panel();
+        deleteButton = new Button();
         ((System.ComponentModel.ISupportInitialize)componentsGrid).BeginInit();
+        bottomPanel.SuspendLayout();
         SuspendLayout();
         // 
         // componentsGrid
@@ -45,19 +48,41 @@ partial class MainForm
         componentsGrid.Size = new Size(800, 450);
         componentsGrid.TabIndex = 0;
         // 
+        // bottomPanel
+        // 
+        bottomPanel.Controls.Add(deleteButton);
+        bottomPanel.Dock = DockStyle.Bottom;
+        bottomPanel.Location = new Point(0, 400);
+        bottomPanel.Name = "bottomPanel";
+        bottomPanel.Size = new Size(800, 50);
+        bottomPanel.TabIndex = 2;
+        // 
+        // deleteButton
+        // 
+        deleteButton.Location = new Point(348, 15);
+        deleteButton.Name = "deleteButton";
+        deleteButton.Size = new Size(75, 23);
+        deleteButton.TabIndex = 0;
+        deleteButton.Text = "Delete";
+        deleteButton.UseVisualStyleBackColor = true;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         ClientSize = new Size(800, 450);
+        Controls.Add(bottomPanel);
         Controls.Add(componentsGrid);
         Name = "MainForm";
         Text = "SmartLoop - Component Library";
         ((System.ComponentModel.ISupportInitialize)componentsGrid).EndInit();
+        bottomPanel.ResumeLayout(false);
         ResumeLayout(false);
     }
 
     #endregion
 
     private DataGridView componentsGrid;
+    private Panel bottomPanel;
+    private Button deleteButton;
 }

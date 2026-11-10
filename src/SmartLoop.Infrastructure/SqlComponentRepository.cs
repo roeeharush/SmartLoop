@@ -1,4 +1,5 @@
-﻿using SmartLoop.Core.Interfaces;
+﻿using SmartLoop.Core.Exceptions;
+using SmartLoop.Core.Interfaces;
 using SmartLoop.Core.Models;
 using Microsoft.Data.SqlClient;
 
@@ -6,6 +7,8 @@ namespace SmartLoop.Infrastructure;
 
 public class SqlComponentRepository : IComponentRepository
 {
+    private const int ForeignKeyViolationNumber = 547;
+
     private readonly string _connectionString;
 
     public SqlComponentRepository(string connectionString)
@@ -109,7 +112,14 @@ public class SqlComponentRepository : IComponentRepository
         await using var command = new SqlCommand(sql, connection);
         command.Parameters.AddWithValue("@id", id);
 
-        await command.ExecuteNonQueryAsync();
+        try
+        {
+            await command.ExecuteNonQueryAsync();
+        }
+        catch (SqlException ex) when (ex.Number == ForeignKeyViolationNumber)
+        {
+            throw new ComponentInUseException("The component is used in a control system and cannot be deleted.", ex);
+        }
     }
 
     private static Component MapComponent(SqlDataReader reader)
