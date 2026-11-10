@@ -43,6 +43,8 @@ partial class MainForm
         descriptionLabel = new Label();
         descriptionTextBox = new TextBox();
         addButton = new Button();
+        editButton = new Button();
+        updateButton = new Button();
         deleteButton = new Button();
         ((System.ComponentModel.ISupportInitialize)componentsGrid).BeginInit();
         bottomPanel.SuspendLayout();
@@ -76,6 +78,8 @@ partial class MainForm
         bottomPanel.Controls.Add(descriptionLabel);
         bottomPanel.Controls.Add(descriptionTextBox);
         bottomPanel.Controls.Add(addButton);
+        bottomPanel.Controls.Add(editButton);
+        bottomPanel.Controls.Add(updateButton);
         bottomPanel.Controls.Add(deleteButton);
         bottomPanel.Dock = DockStyle.Bottom;
         bottomPanel.Location = new Point(0, 320);
@@ -190,6 +194,24 @@ partial class MainForm
         addButton.Text = "Add";
         addButton.UseVisualStyleBackColor = true;
         //
+        // editButton
+        //
+        editButton.Location = new Point(650, 27);
+        editButton.Name = "editButton";
+        editButton.Size = new Size(90, 25);
+        editButton.TabIndex = 14;
+        editButton.Text = "Edit";
+        editButton.UseVisualStyleBackColor = true;
+        //
+        // updateButton
+        //
+        updateButton.Location = new Point(650, 79);
+        updateButton.Name = "updateButton";
+        updateButton.Size = new Size(90, 25);
+        updateButton.TabIndex = 15;
+        updateButton.Text = "Update";
+        updateButton.UseVisualStyleBackColor = true;
+        //
         // deleteButton
         //
         deleteButton.Location = new Point(550, 79);
@@ -231,5 +253,7 @@ partial class MainForm
     private Label descriptionLabel;
     private TextBox descriptionTextBox;
     private Button addButton;
+    private Button editButton;
+    private Button updateButton;
     private Button deleteButton;
 }
