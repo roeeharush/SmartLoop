@@ -1,7 +1,9 @@
 ﻿using SmartLoop.Core.Interfaces;
 using SmartLoop.Core.Models;
 using System.Xml;
+using System.Globalization;
 using System.Xml.Linq;
+using System.Xml.XPath;
 
 namespace SmartLoop.Infrastructure;
 
@@ -80,6 +82,35 @@ public class XmlService : IXmlService
         }
 
         return system;
+    }
+
+    public IReadOnlyList<string> Search(string xml, string xpath)
+    {
+        var document = XDocument.Parse(xml);
+
+        object result;
+
+        try
+        {
+            result = document.XPathEvaluate(xpath);
+        }
+        catch (XPathException ex)
+        {
+            throw new FormatException("The XPath expression is not valid.", ex);
+        }
+
+        if (result is IEnumerable<object> items)
+        {
+            return items.Select(item => item switch
+            {
+                XElement element => element.ToString(),
+                XAttribute attribute => attribute.Value,
+                XText text => text.Value,
+                _ => item.ToString() ?? string.Empty
+            }).ToList();
+        }
+
+        return new List<string> { Convert.ToString(result, CultureInfo.InvariantCulture) ?? string.Empty };
     }
 
     private static int ReadInt(XElement element, string attributeName)

@@ -30,6 +30,48 @@ public class SystemsPresenter
         _view.ViewLoaded += OnViewLoaded;
         _view.ExportRequested += OnExportRequested;
         _view.ImportRequested += OnImportRequested;
+        _view.SearchRequested += OnSearchRequested;
+    }
+
+    private async void OnSearchRequested(object? sender, EventArgs e)
+    {
+        var xpath = _view.XPathQuery.Trim();
+        if (xpath.Length == 0)
+        {
+            _view.ShowError("Please enter an XPath expression.");
+            return;
+        }
+
+        try
+        {
+            var library = await _componentRepository.GetAllAsync();
+            var lines = new List<string>();
+
+            foreach (var system in _systems)
+            {
+                var xml = _xmlService.Export(system, library);
+
+                foreach (var result in _xmlService.Search(xml, xpath))
+                {
+                    lines.Add($"[{system.Name}] {result}");
+                }
+            }
+
+            if (lines.Count == 0)
+            {
+                lines.Add("No matches.");
+            }
+
+            _view.ShowSearchResults(lines);
+        }
+        catch (FormatException ex)
+        {
+            _view.ShowError($"Invalid XPath: {ex.Message}");
+        }
+        catch (Exception ex)
+        {
+            _view.ShowError($"Search failed: {ex.Message}");
+        }
     }
 
     private async void OnViewLoaded(object? sender, EventArgs e)

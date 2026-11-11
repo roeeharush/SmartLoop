@@ -8,10 +8,13 @@ public partial class SystemsForm : Form, ISystemsView
     public event EventHandler? ViewLoaded;
     public event EventHandler? ExportRequested;
     public event EventHandler? ImportRequested;
+    public event EventHandler? SearchRequested;
 
     public SystemsForm()
     {
         InitializeComponent();
+
+        searchButton.Click += (sender, e) => SearchRequested?.Invoke(this, EventArgs.Empty);
 
         Load += (sender, e) => ViewLoaded?.Invoke(this, EventArgs.Empty);
         exportButton.Click += (sender, e) => ExportRequested?.Invoke(this, EventArgs.Empty);
@@ -29,6 +32,13 @@ public partial class SystemsForm : Form, ISystemsView
 
             return null;
         }
+    }
+
+    public string XPathQuery => xpathTextBox.Text;
+
+    public void ShowSearchResults(IReadOnlyList<string> lines)
+    {
+        resultsTextBox.Text = string.Join(Environment.NewLine, lines);
     }
 
     public void ShowSystems(IReadOnlyList<ControlSystem> systems)

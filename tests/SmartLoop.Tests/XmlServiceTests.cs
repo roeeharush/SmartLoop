@@ -84,6 +84,45 @@ public class XmlServiceTests
     }
 
     [Fact]
+    public void Search_ByRole_ReturnsOnlyMatchingComponents()
+    {
+        var xml = _service.Export(CreateSystem(), CreateLibrary());
+
+        var results = _service.Search(xml, "//Component[@role='Sensor']");
+
+        Assert.Single(results);
+        Assert.Contains("Temperature Sensor", results[0]);
+    }
+
+    [Fact]
+    public void Search_MaxGreaterThan100_ReturnsTwoComponents()
+    {
+        var xml = _service.Export(CreateSystem(), CreateLibrary());
+
+        var results = _service.Search(xml, "//Component[@max > 100]");
+
+        Assert.Equal(2, results.Count);
+    }
+
+    [Fact]
+    public void Search_AttributePath_ReturnsAttributeValues()
+    {
+        var xml = _service.Export(CreateSystem(), CreateLibrary());
+
+        var results = _service.Search(xml, "//Component/@name");
+
+        Assert.Equal(new[] { "Temperature Sensor", "PID Controller", "Heater Actuator" }, results);
+    }
+
+    [Fact]
+    public void Search_InvalidXPath_ThrowsFormatException()
+    {
+        var xml = _service.Export(CreateSystem(), CreateLibrary());
+
+        Assert.Throws<FormatException>(() => _service.Search(xml, "//Component[[["));
+    }
+
+    [Fact]
     public void Import_NotXml_ThrowsFormatException()
     {
         Assert.Throws<FormatException>(() => _service.Import("this is not xml"));

@@ -6,4 +6,5 @@ public interface IXmlService
 {
     string Export(ControlSystem system, IReadOnlyList<Component> libraryComponents);
     ControlSystem Import(string xml);
+    IReadOnlyList<string> Search(string xml, string xpath);
 }
