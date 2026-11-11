@@ -21,6 +21,7 @@ static class Program
         services.AddSingleton<IComponentRepository>(_ => new SqlComponentRepository(connectionString));
         services.AddSingleton<ISystemRepository>(_ => new SqlSystemRepository(connectionString));
         services.AddSingleton<IXmlService, XmlService>();
+        services.AddSingleton<IAiService, FakeAiService>();
         services.AddSingleton<IValidationService, ValidationService>();
         services.AddSingleton<MainForm>();
         services.AddSingleton<IComponentLibraryView>(provider => provider.GetRequiredService<MainForm>());

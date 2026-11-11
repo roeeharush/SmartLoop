@@ -7,10 +7,13 @@ public partial class SystemBuilderForm : Form, ISystemBuilderView
 {
     public event EventHandler? ViewLoaded;
     public event EventHandler? SaveRequested;
+    public event EventHandler? AiSuggestRequested;
 
     public SystemBuilderForm()
     {
         InitializeComponent();
+
+        aiSuggestButton.Click += (sender, e) => AiSuggestRequested?.Invoke(this, EventArgs.Empty);
 
         Load += (sender, e) => ViewLoaded?.Invoke(this, EventArgs.Empty);
         saveButton.Click += (sender, e) => SaveRequested?.Invoke(this, EventArgs.Empty);
@@ -31,6 +34,15 @@ public partial class SystemBuilderForm : Form, ISystemBuilderView
         foreach (var component in components)
         {
             componentsCheckedListBox.Items.Add(component);
+        }
+    }
+
+    public void SelectComponents(IReadOnlyList<int> componentIds)
+    {
+        for (var i = 0; i < componentsCheckedListBox.Items.Count; i++)
+        {
+            var component = (Component)componentsCheckedListBox.Items[i];
+            componentsCheckedListBox.SetItemChecked(i, componentIds.Contains(component.Id));
         }
     }
 

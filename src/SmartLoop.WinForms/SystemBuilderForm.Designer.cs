@@ -37,6 +37,7 @@
             bottomPanel = new System.Windows.Forms.Panel();
             cancelButton = new System.Windows.Forms.Button();
             saveButton = new System.Windows.Forms.Button();
+            aiSuggestButton = new System.Windows.Forms.Button();
             topPanel.SuspendLayout();
             bottomPanel.SuspendLayout();
             SuspendLayout();
@@ -101,6 +102,7 @@
             //
             bottomPanel.Controls.Add(cancelButton);
             bottomPanel.Controls.Add(saveButton);
+            bottomPanel.Controls.Add(aiSuggestButton);
             bottomPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
             bottomPanel.Location = new System.Drawing.Point(0, 411);
             bottomPanel.Name = "bottomPanel";
@@ -127,6 +129,15 @@
             saveButton.TabIndex = 0;
             saveButton.Text = "Save";
             saveButton.UseVisualStyleBackColor = true;
+            //
+            // aiSuggestButton
+            //
+            aiSuggestButton.Location = new System.Drawing.Point(12, 10);
+            aiSuggestButton.Name = "aiSuggestButton";
+            aiSuggestButton.Size = new System.Drawing.Size(110, 30);
+            aiSuggestButton.TabIndex = 2;
+            aiSuggestButton.Text = "AI Suggest";
+            aiSuggestButton.UseVisualStyleBackColor = true;
             //
             // SystemBuilderForm
             //
@@ -157,5 +168,6 @@
         private System.Windows.Forms.Panel bottomPanel;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.Button saveButton;
+        private System.Windows.Forms.Button aiSuggestButton;
     }
 }
