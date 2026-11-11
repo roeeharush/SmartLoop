@@ -10,6 +10,7 @@ public partial class MainForm : Form, IComponentLibraryView
     public event EventHandler? AddRequested;
     public event EventHandler? EditRequested;
     public event EventHandler? UpdateRequested;
+    public event EventHandler? BuildSystemRequested;
 
     public int? SelectedComponentId
     {
@@ -58,6 +59,7 @@ public partial class MainForm : Form, IComponentLibraryView
         addButton.Click += (sender, e) => AddRequested?.Invoke(this, EventArgs.Empty);
         editButton.Click += (sender, e) => EditRequested?.Invoke(this, EventArgs.Empty);
         updateButton.Click += (sender, e) => UpdateRequested?.Invoke(this, EventArgs.Empty);
+        buildSystemButton.Click += (sender, e) => BuildSystemRequested?.Invoke(this, EventArgs.Empty);
     }
 
     public void ShowComponents(IReadOnlyList<Component> components)

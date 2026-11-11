@@ -46,6 +46,7 @@ partial class MainForm
         editButton = new Button();
         updateButton = new Button();
         deleteButton = new Button();
+        buildSystemButton = new Button();
         ((System.ComponentModel.ISupportInitialize)componentsGrid).BeginInit();
         bottomPanel.SuspendLayout();
         SuspendLayout();
@@ -60,7 +61,7 @@ partial class MainForm
         componentsGrid.Name = "componentsGrid";
         componentsGrid.ReadOnly = true;
         componentsGrid.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        componentsGrid.Size = new Size(800, 320);
+        componentsGrid.Size = new Size(800, 290);
         componentsGrid.TabIndex = 0;
         //
         // bottomPanel
@@ -81,10 +82,11 @@ partial class MainForm
         bottomPanel.Controls.Add(editButton);
         bottomPanel.Controls.Add(updateButton);
         bottomPanel.Controls.Add(deleteButton);
+        bottomPanel.Controls.Add(buildSystemButton);
         bottomPanel.Dock = DockStyle.Bottom;
-        bottomPanel.Location = new Point(0, 320);
+        bottomPanel.Location = new Point(0, 290);
         bottomPanel.Name = "bottomPanel";
-        bottomPanel.Size = new Size(800, 130);
+        bottomPanel.Size = new Size(800, 160);
         bottomPanel.TabIndex = 2;
         //
         // nameLabel
@@ -221,6 +223,15 @@ partial class MainForm
         deleteButton.Text = "Delete";
         deleteButton.UseVisualStyleBackColor = true;
         //
+        // buildSystemButton
+        //
+        buildSystemButton.Location = new Point(550, 120);
+        buildSystemButton.Name = "buildSystemButton";
+        buildSystemButton.Size = new Size(190, 28);
+        buildSystemButton.TabIndex = 16;
+        buildSystemButton.Text = "Build System...";
+        buildSystemButton.UseVisualStyleBackColor = true;
+        //
         // MainForm
         //
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -256,4 +267,5 @@ partial class MainForm
     private Button editButton;
     private Button updateButton;
     private Button deleteButton;
+    private Button buildSystemButton;
 }
