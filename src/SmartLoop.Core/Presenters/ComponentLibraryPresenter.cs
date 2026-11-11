@@ -9,11 +9,13 @@ public class ComponentLibraryPresenter
 {
     private readonly IComponentLibraryView _view;
     private readonly IComponentRepository _repository;
+    private readonly IValidationService _validationService;
 
-    public ComponentLibraryPresenter(IComponentLibraryView view, IComponentRepository repository)
+    public ComponentLibraryPresenter(IComponentLibraryView view, IComponentRepository repository, IValidationService validationService)
     {
         _view = view;
         _repository = repository;
+        _validationService = validationService;
 
         _view.ViewLoaded += OnViewLoaded;
         _view.DeleteRequested += OnDeleteRequested;
@@ -146,18 +148,6 @@ public class ComponentLibraryPresenter
 
     private Component? ReadComponentFromInputs()
     {
-        if (string.IsNullOrWhiteSpace(_view.ComponentName))
-        {
-            _view.ShowError("Name is required.");
-            return null;
-        }
-
-        if (string.IsNullOrWhiteSpace(_view.ComponentUnit))
-        {
-            _view.ShowError("Unit is required.");
-            return null;
-        }
-
         if (!decimal.TryParse(_view.MinValueText, out var minValue) ||
             !decimal.TryParse(_view.MaxValueText, out var maxValue))
         {
@@ -165,13 +155,7 @@ public class ComponentLibraryPresenter
             return null;
         }
 
-        if (minValue >= maxValue)
-        {
-            _view.ShowError("Min must be smaller than Max.");
-            return null;
-        }
-
-        return new Component
+        var component = new Component
         {
             Name = _view.ComponentName.Trim(),
             Type = _view.SelectedType,
@@ -180,5 +164,14 @@ public class ComponentLibraryPresenter
             MaxValue = maxValue,
             Description = string.IsNullOrWhiteSpace(_view.ComponentDescription) ? null : _view.ComponentDescription.Trim()
         };
+
+        var errors = _validationService.ValidateComponent(component);
+        if (errors.Count > 0)
+        {
+            _view.ShowError(string.Join(Environment.NewLine, errors));
+            return null;
+        }
+
+        return component;
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SmartLoop.Core.Interfaces;
 using SmartLoop.Core.Presenters;
+using SmartLoop.Core.Validation;
 using SmartLoop.Core.Views;
 using SmartLoop.Infrastructure;
 
@@ -18,6 +19,7 @@ static class Program
         var services = new ServiceCollection();
 
         services.AddSingleton<IComponentRepository>(_ => new SqlComponentRepository(connectionString));
+        services.AddSingleton<IValidationService, ValidationService>();
         services.AddSingleton<MainForm>();
         services.AddSingleton<IComponentLibraryView>(provider => provider.GetRequiredService<MainForm>());
         services.AddSingleton<ComponentLibraryPresenter>();
