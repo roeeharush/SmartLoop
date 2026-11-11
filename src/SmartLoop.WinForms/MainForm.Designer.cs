@@ -47,6 +47,7 @@ partial class MainForm
         updateButton = new Button();
         deleteButton = new Button();
         buildSystemButton = new Button();
+        systemsButton = new Button();
         ((System.ComponentModel.ISupportInitialize)componentsGrid).BeginInit();
         bottomPanel.SuspendLayout();
         SuspendLayout();
@@ -83,6 +84,7 @@ partial class MainForm
         bottomPanel.Controls.Add(updateButton);
         bottomPanel.Controls.Add(deleteButton);
         bottomPanel.Controls.Add(buildSystemButton);
+        bottomPanel.Controls.Add(systemsButton);
         bottomPanel.Dock = DockStyle.Bottom;
         bottomPanel.Location = new Point(0, 290);
         bottomPanel.Name = "bottomPanel";
@@ -232,6 +234,15 @@ partial class MainForm
         buildSystemButton.Text = "Build System...";
         buildSystemButton.UseVisualStyleBackColor = true;
         //
+        // systemsButton
+        //
+        systemsButton.Location = new Point(350, 120);
+        systemsButton.Name = "systemsButton";
+        systemsButton.Size = new Size(190, 28);
+        systemsButton.TabIndex = 17;
+        systemsButton.Text = "Saved Systems...";
+        systemsButton.UseVisualStyleBackColor = true;
+        //
         // MainForm
         //
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -268,4 +279,5 @@ partial class MainForm
     private Button updateButton;
     private Button deleteButton;
     private Button buildSystemButton;
+    private Button systemsButton;
 }

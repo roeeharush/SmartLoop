@@ -64,4 +64,55 @@ public class SqlSystemRepository : ISystemRepository
             throw;
         }
     }
+
+    public async Task<IReadOnlyList<ControlSystem>> GetAllAsync()
+    {
+        const string systemsSql = "SELECT Id, Name, Description, CreatedAt FROM ControlSystems ORDER BY Name";
+        const string componentsSql = "SELECT SystemId, ComponentId, Role, Position FROM SystemComponents ORDER BY SystemId, Position";
+
+        var systems = new List<ControlSystem>();
+        var systemsById = new Dictionary<int, ControlSystem>();
+
+        await using var connection = new SqlConnection(_connectionString);
+        await connection.OpenAsync();
+
+        await using (var command = new SqlCommand(systemsSql, connection))
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                var system = new ControlSystem
+                {
+                    Id = reader.GetInt32(0),
+                    Name = reader.GetString(1),
+                    Description = reader.IsDBNull(2) ? null : reader.GetString(2),
+                    CreatedAt = reader.GetDateTime(3)
+                };
+
+                systems.Add(system);
+                systemsById[system.Id] = system;
+            }
+        }
+
+        await using (var command = new SqlCommand(componentsSql, connection))
+        await using (var reader = await command.ExecuteReaderAsync())
+        {
+            while (await reader.ReadAsync())
+            {
+                var systemId = reader.GetInt32(0);
+
+                if (systemsById.TryGetValue(systemId, out var system))
+                {
+                    system.Components.Add(new SystemComponent
+                    {
+                        ComponentId = reader.GetInt32(1),
+                        Role = Enum.Parse<ComponentType>(reader.GetString(2)),
+                        Position = reader.GetInt32(3)
+                    });
+                }
+            }
+        }
+
+        return systems;
+    }
 }

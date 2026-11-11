@@ -20,6 +20,7 @@ static class Program
 
         services.AddSingleton<IComponentRepository>(_ => new SqlComponentRepository(connectionString));
         services.AddSingleton<ISystemRepository>(_ => new SqlSystemRepository(connectionString));
+        services.AddSingleton<IXmlService, XmlService>();
         services.AddSingleton<IValidationService, ValidationService>();
         services.AddSingleton<MainForm>();
         services.AddSingleton<IComponentLibraryView>(provider => provider.GetRequiredService<MainForm>());
@@ -35,6 +36,13 @@ static class Program
             using var builderForm = new SystemBuilderForm();
             ActivatorUtilities.CreateInstance<SystemBuilderPresenter>(serviceProvider, builderForm);
             builderForm.ShowDialog(form);
+        };
+
+        form.SystemsRequested += (sender, e) =>
+        {
+            using var systemsForm = new SystemsForm();
+            ActivatorUtilities.CreateInstance<SystemsPresenter>(serviceProvider, systemsForm);
+            systemsForm.ShowDialog(form);
         };
 
         Application.Run(form);
