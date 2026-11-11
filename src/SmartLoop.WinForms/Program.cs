@@ -21,7 +21,16 @@ static class Program
         services.AddSingleton<IComponentRepository>(_ => new SqlComponentRepository(connectionString));
         services.AddSingleton<ISystemRepository>(_ => new SqlSystemRepository(connectionString));
         services.AddSingleton<IXmlService, XmlService>();
-        services.AddSingleton<IAiService, FakeAiService>();
+        var apiKey = Environment.GetEnvironmentVariable("ANTHROPIC_API_KEY");
+
+        if (string.IsNullOrWhiteSpace(apiKey))
+        {
+            services.AddSingleton<IAiService, FakeAiService>();
+        }
+        else
+        {
+            services.AddSingleton<IAiService>(_ => new AiService(new HttpClient(), apiKey));
+        }
         services.AddSingleton<IValidationService, ValidationService>();
         services.AddSingleton<MainForm>();
         services.AddSingleton<IComponentLibraryView>(provider => provider.GetRequiredService<MainForm>());
