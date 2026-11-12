@@ -44,6 +44,14 @@ public partial class SystemsForm : Form, ISystemsView
     public void ShowSystems(IReadOnlyList<ControlSystem> systems)
     {
         systemsGrid.DataSource = systems.ToList();
+        systemsGrid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        systemsGrid.BackgroundColor = SystemColors.Window;
+
+        var idColumn = systemsGrid.Columns["Id"];
+        if (idColumn != null)
+        {
+            idColumn.FillWeight = 20;
+        }
 
         var componentsColumn = systemsGrid.Columns["Components"];
         if (componentsColumn != null)
