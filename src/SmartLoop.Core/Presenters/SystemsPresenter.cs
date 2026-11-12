@@ -174,7 +174,8 @@ public class SystemsPresenter
         }
         catch (Exception ex)
         {
-            _view.ShowError($"Failed to import: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine(ex);
+            _view.ShowError("Failed to import the system. Check the file and the database connection, then try again.");
         }
     }
 }

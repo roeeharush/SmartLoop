@@ -5,7 +5,7 @@ namespace SmartLoop.Infrastructure;
 
 public class FakeAiService : IAiService
 {
-    public Task<IReadOnlyList<int>> SuggestComponentIdsAsync(string description,IReadOnlyList<Component> libraryComponents)
+    public Task<IReadOnlyList<int>> SuggestComponentIdsAsync(string description, IReadOnlyList<Component> libraryComponents)
     {
         var suggestion = new List<int>();
 

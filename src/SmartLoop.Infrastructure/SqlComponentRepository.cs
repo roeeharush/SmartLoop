@@ -99,7 +99,12 @@ public class SqlComponentRepository : IComponentRepository
         command.Parameters.AddWithValue("@maxValue", component.MaxValue);
         command.Parameters.AddWithValue("@description", (object?)component.Description ?? DBNull.Value);
 
-        await command.ExecuteNonQueryAsync();
+        var rowsAffected = await command.ExecuteNonQueryAsync();
+
+        if (rowsAffected == 0)
+        {
+            throw new InvalidOperationException("The component no longer exists.");
+        }
     }
 
     public async Task DeleteAsync(int id)

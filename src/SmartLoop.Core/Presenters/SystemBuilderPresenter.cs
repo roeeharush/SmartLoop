@@ -62,7 +62,7 @@ public class SystemBuilderPresenter
 
             _view.SelectComponents(knownIds);
 
-            var ignored = suggestedIds.Count - knownIds.Count;
+            var ignored = suggestedIds.Distinct().Count() - knownIds.Count;
             var note = ignored > 0 ? $" ({ignored} unknown component(s) were ignored.)" : string.Empty;
             _view.ShowMessage("Suggestion applied." + note + " Review it and press Save to confirm.");
         }
@@ -104,7 +104,8 @@ public class SystemBuilderPresenter
         }
         catch (Exception ex)
         {
-            _view.ShowError($"Failed to save system: {ex.Message}");
+            System.Diagnostics.Debug.WriteLine(ex);
+            _view.ShowError("Failed to save the system. Check the database connection and try again.");
         }
     }
 

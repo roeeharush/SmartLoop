@@ -52,7 +52,7 @@ public partial class MainForm : Form, IComponentLibraryView
     public MainForm()
     {
         InitializeComponent();
-           
+
         typeComboBox.DataSource = Enum.GetValues<ComponentType>();
 
         Load += (sender, e) => ViewLoaded?.Invoke(this, EventArgs.Empty);
