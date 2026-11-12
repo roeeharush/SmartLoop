@@ -147,4 +147,58 @@ public class ValidationServiceTests
 
         Assert.Equal(4, errors.Count);
     }
+
+    [Fact]
+    public void ValidateComponent_WhitespaceName_ReturnsNameError()
+    {
+        var component = CreateValidComponent();
+        component.Name = "   ";
+
+        var errors = _service.ValidateComponent(component);
+
+        Assert.Single(errors);
+        Assert.Contains("Name is required.", errors);
+    }
+
+    [Fact]
+    public void ValidateComponent_WhitespaceUnit_ReturnsUnitError()
+    {
+        var component = CreateValidComponent();
+        component.Unit = "\t";
+
+        var errors = _service.ValidateComponent(component);
+
+        Assert.Single(errors);
+        Assert.Contains("Unit is required.", errors);
+    }
+
+    [Fact]
+    public void ValidateComponent_MinEqualsMax_ReturnsRangeError()
+    {
+        var component = CreateValidComponent();
+        component.MinValue = 10;
+        component.MaxValue = 10;
+
+        var errors = _service.ValidateComponent(component);
+
+        Assert.Single(errors);
+        Assert.Contains("Min must be smaller than Max.", errors);
+    }
+
+    [Fact]
+    public void ValidateComponent_AllFieldsInvalid_ReturnsAllErrors()
+    {
+        var component = CreateValidComponent();
+        component.Name = " ";
+        component.Unit = "";
+        component.MinValue = 25;
+        component.MaxValue = 25;
+
+        var errors = _service.ValidateComponent(component);
+
+        Assert.Equal(3, errors.Count);
+        Assert.Contains("Name is required.", errors);
+        Assert.Contains("Unit is required.", errors);
+        Assert.Contains("Min must be smaller than Max.", errors);
+    }
 }
